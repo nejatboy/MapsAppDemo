@@ -1,5 +1,6 @@
 package com.nejatboy.demoapp.viewmodel
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
 import com.nejatboy.demoapp.model.Comment
+import com.nejatboy.demoapp.model.Location
 import com.nejatboy.demoapp.model.Place
 import com.nejatboy.demoapp.service.MyAPIService
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 
     val places = MutableLiveData<List<Place>>()
     val isLocationClose = MutableLiveData<Boolean>()
+    val currentLocation = MutableLiveData<Location>()
 
 
     fun runData() {

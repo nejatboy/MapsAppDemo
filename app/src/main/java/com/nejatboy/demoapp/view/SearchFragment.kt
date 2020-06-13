@@ -1,7 +1,9 @@
 package com.nejatboy.demoapp.view
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -10,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -65,6 +70,8 @@ class SearchFragment : Fragment() {
                     }
                     alert.show()
                 }
+            } else {        //Konum açıksa
+                requestLocationPermission()
             }
         })
 
@@ -78,5 +85,32 @@ class SearchFragment : Fragment() {
     }
 
 
+    private fun requestLocationPermission() {
+        activity?.let {activity  ->
+            context?.let {context ->
+                if (checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                    println("İLK KEZ SORARIM")
+                } else {
+                    println("İZİNİM ZATEN VAR ÇAIŞIRIM ")
+                }
+            }
+        }
+    }
 
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty()) {
+                context?.let {context ->
+                    if (checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {     //İlk izin verilmesi durumu
+                        println("İLK İZİN VERİLDİĞİNDE ÇALIŞIRIM")
+                    } else {
+                        exitProcess(0)
+                    }
+                }
+            }
+        }
+    }
 }
