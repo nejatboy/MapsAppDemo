@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,13 +20,16 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nejatboy.demoapp.R
+import com.nejatboy.demoapp.model.Location
 import com.nejatboy.demoapp.viewmodel.SearchViewModel
+import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlin.system.exitProcess
 
 
 class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
+    private var currentLocation: Location? = null
 
 
     override fun onCreateView(
@@ -44,7 +48,15 @@ class SearchFragment : Fragment() {
 
         observeLiveData()
 
-        viewModel.runData()
+        //viewModel.runData()
+
+        view.buttonTestSearch.setOnClickListener {
+            currentLocation?.let {
+                println("Konum var api isteği yapılır")
+            } ?: run {
+                println("Konum alınmamış sıkıntı var")
+            }
+        }
     }
 
 
@@ -75,12 +87,15 @@ class SearchFragment : Fragment() {
             }
         })
 
-
         viewModel.places.observe(viewLifecycleOwner, Observer {
             for (place in it) {
                 //println(place.name)
                 //println(place.scope)
             }
+        })
+
+        viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
+            currentLocation = it
         })
     }
 
@@ -90,9 +105,9 @@ class SearchFragment : Fragment() {
             context?.let {context ->
                 if (checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-                    println("İLK KEZ SORARIM")
-                } else {
-                    println("İZİNİM ZATEN VAR ÇAIŞIRIM ")
+
+                } else {        //İzin var
+                    viewModel.getCurrentLocation()
                 }
             }
         }
@@ -105,7 +120,7 @@ class SearchFragment : Fragment() {
             if (grantResults.isNotEmpty()) {
                 context?.let {context ->
                     if (checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {     //İlk izin verilmesi durumu
-                        println("İLK İZİN VERİLDİĞİNDE ÇALIŞIRIM")
+                        viewModel.getCurrentLocation()
                     } else {
                         exitProcess(0)
                     }
