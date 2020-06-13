@@ -54,7 +54,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1f, locationListener)   //Konum al
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20, 20f, locationListener)   //Konum al (Düşük  doğruluk)
     }
 
 
@@ -74,8 +74,6 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
         override fun onLocationChanged(location: android.location.Location?) {
             location?.let {
                 currentLocation.value = Location(it.latitude, it.longitude)
-                println(it.latitude)
-                println(it.longitude)
             }
         }
 
