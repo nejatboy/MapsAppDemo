@@ -27,4 +27,6 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
             }
         }
     }
+
+
 }
