@@ -37,9 +37,10 @@ class SearchFragment : Fragment() {
 
 
     private fun observeLiveData() {
-        viewModel.comments.observe(viewLifecycleOwner, Observer {
-            for (comment in it) {
-                println(comment.body)
+        viewModel.places.observe(viewLifecycleOwner, Observer {
+            for (place in it) {
+                println(place.name)
+                println(place.scope)
             }
         })
     }
