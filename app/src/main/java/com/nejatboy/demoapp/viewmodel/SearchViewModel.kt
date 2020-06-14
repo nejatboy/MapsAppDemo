@@ -23,8 +23,8 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     val currentLocation = MutableLiveData<Location>()
 
 
-    fun getData() {
-        getDataFromAPI()
+    fun getData(location:String, radius:Int, keyword:String, key:String) {
+        getDataFromAPI(location, radius, keyword, key)
     }
 
 
@@ -58,9 +58,9 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     }
 
 
-    private fun getDataFromAPI () {
+    private fun getDataFromAPI (location:String, radius:Int, keyword:String, key:String) {
         launch {
-            val response = MyAPIService().getDataFromAPI()
+            val response = MyAPIService().getDataFromAPI(location, radius, keyword, key)
             if (response.isSuccessful) {
                 response.body()?.let {
                     places.value = it.results

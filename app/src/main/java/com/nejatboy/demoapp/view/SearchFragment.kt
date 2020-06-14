@@ -17,6 +17,7 @@ import com.nejatboy.demoapp.R
 import com.nejatboy.demoapp.model.Location
 import com.nejatboy.demoapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import java.util.*
 import kotlin.system.exitProcess
 
 
@@ -24,6 +25,9 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var currentLocation: Location? = null
+
+    private val MY_API_KEY = "AIzaSyCd0Ruh6iW2OeT8UoEyQ493ZifqHH9eHbE"
+    private val RADIUS = 1500       // Yarıçap
 
 
     override fun onCreateView(
@@ -46,7 +50,6 @@ class SearchFragment : Fragment() {
 
         buttonSearch.setOnClickListener(buttonSearchClicked)
 
-        viewModel.getData()
     }
 
 
@@ -122,18 +125,18 @@ class SearchFragment : Fragment() {
 
     private val buttonSearchClicked = View.OnClickListener {
         currentLocation?.let {currentLocation ->
-            val text = editTextSearch.text.toString()
+            val keyword = editTextSearch.text.toString().toLowerCase(Locale.getDefault())
 
-            if (text.isEmpty()) {
+            if (keyword.isEmpty()) {
                 editTextSearch.error = "Lütfen aramak istediğiniz mekanı yazınız."
                 return@OnClickListener
             }
 
             val lat = currentLocation.lat.toString()
             val lng = currentLocation.lng.toString()
+            val location = "$lat,$lng"
 
-            println(lat)
-            println(lng)
+            viewModel.getData(location, RADIUS, keyword, MY_API_KEY)
 
         } ?: run {
             Toast.makeText(context, "Konumunuz alınamadı lütfen daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show()

@@ -17,7 +17,7 @@ class MyAPIService {
         .create(MyAPI::class.java)
 
 
-    suspend fun getDataFromAPI() : Response<BaseModel> {
-        return api.getData()
+    suspend fun getDataFromAPI(location:String, radius:Int, keyword:String, key:String) : Response<BaseModel> {
+        return api.getData(location, radius, keyword, key)
     }
 }
