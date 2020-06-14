@@ -17,6 +17,7 @@ import com.nejatboy.demoapp.R
 import com.nejatboy.demoapp.model.Location
 import com.nejatboy.demoapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -106,6 +107,22 @@ class SearchFragment : Fragment() {
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
             currentLocation = it
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.isThereError.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                textViewError.visibility = View.VISIBLE
+            } else {
+                textViewError.visibility = View.GONE
+            }
+        })
     }
 
 
@@ -137,6 +154,7 @@ class SearchFragment : Fragment() {
             val location = "$lat,$lng"
 
             viewModel.getData(location, RADIUS, keyword, MY_API_KEY)
+            editTextSearch.setText("")
 
         } ?: run {
             Toast.makeText(context, "Konumunuz alınamadı lütfen daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show()
