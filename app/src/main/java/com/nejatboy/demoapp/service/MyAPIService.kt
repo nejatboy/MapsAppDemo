@@ -1,7 +1,6 @@
 package com.nejatboy.demoapp.service
 
 import com.nejatboy.demoapp.model.BaseModel
-import com.nejatboy.demoapp.model.Comment
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

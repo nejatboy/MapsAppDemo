@@ -7,4 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="MyButton" parent="Widget.AppCompat.Button.Small">
+        <item name="android:background">@drawable/custom_button</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:height">35dp</item>
+    </style>
+
+
+    <style name="MyEdittext" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">#000</item>
+        <item name="android:background">@drawable/my_edittext</item>
+    </style>
+
 </resources>

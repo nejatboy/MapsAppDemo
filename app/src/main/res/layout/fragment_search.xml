@@ -20,16 +20,18 @@
 
     <Button
         android:id="@+id/buttonSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        style="@style/MyButton"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="16dp"
         android:text="Ara"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSearch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/editTextSearch" />
 
     <EditText
         android:id="@+id/editTextSearch"
+        style="@style/MyEdittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
