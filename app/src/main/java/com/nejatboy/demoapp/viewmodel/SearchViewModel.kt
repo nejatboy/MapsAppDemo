@@ -18,6 +18,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private var locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+
     val places = MutableLiveData<List<Place>>()
     val isLocationClose = MutableLiveData<Boolean>()
     val currentLocation = MutableLiveData<Location>()
@@ -30,7 +31,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     }
 
 
-    fun isLocationOn() {      // Kullanıcı konumunu açmamışsa uyarı verir
+    fun isLocationOn() {
         var gpsEnabled = false
         var networkEnabled = false
 

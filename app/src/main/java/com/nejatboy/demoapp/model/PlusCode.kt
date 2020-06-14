@@ -1,6 +1,6 @@
 package com.nejatboy.demoapp.model
 
-data class Plus_code (
+data class PlusCode (
 
 	val compound_code : String,
 	val global_code : String

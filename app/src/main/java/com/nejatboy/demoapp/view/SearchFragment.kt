@@ -13,12 +13,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nejatboy.demoapp.R
+import com.nejatboy.demoapp.adapter.PlaceRecyclerAdapter
 import com.nejatboy.demoapp.model.Location
+import com.nejatboy.demoapp.model.Place
 import com.nejatboy.demoapp.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 
@@ -26,6 +31,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var currentLocation: Location? = null
+    private var places = ArrayList<Place>()
 
     private val MY_API_KEY = "AIzaSyCd0Ruh6iW2OeT8UoEyQ493ZifqHH9eHbE"
     private val RADIUS = 1500       // Yarıçap
@@ -43,11 +49,11 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
+
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
 
         observeLiveData()
-
-
 
         buttonSearch.setOnClickListener(buttonSearchClicked)
 
@@ -98,10 +104,10 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.places.observe(viewLifecycleOwner, Observer {
-            for (place in it) {
-                println(place.name)
-                println(place.scope)
-            }
+            places.clear()
+            places.addAll(it)
+            println(it.size)
+            showPlaces()
         })
 
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
@@ -141,6 +147,7 @@ class SearchFragment : Fragment() {
 
 
     private val buttonSearchClicked = View.OnClickListener {
+
         currentLocation?.let {currentLocation ->
             val keyword = editTextSearch.text.toString().toLowerCase(Locale.getDefault())
 
@@ -161,4 +168,15 @@ class SearchFragment : Fragment() {
         }
     }
 
+
+    private fun setupRecyclerView() {
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+    }
+
+
+    private fun showPlaces() {
+        val adapter = PlaceRecyclerAdapter(places)
+        recyclerView.adapter = adapter
+    }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.nejatboy.demoapp.view.SearchFragment"
+        android:label="Arama"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.nejatboy.demoapp.view.MapsFragment"
+        android:label="Harita"
+        tools:layout="@layout/fragment_maps">
+        <action
+            android:id="@+id/action_mapsFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <argument
+            android:name="selectedPlace"
+            app:argType="com.nejatboy.demoapp.model.Place" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.nejatboy.demoapp.view.DetailFragment"
+        android:label="Detay"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="selectedPlace"
+            app:argType="com.nejatboy.demoapp.model.Place" />
+    </fragment>
+</navigation>
